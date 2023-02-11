@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - data:/data/db
+    ports:
+      - "27017:27017" 
+    networks:
+      - zzz
+
+  server:
+    build: ./server
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongodb
+    environment:
+      - DATABASE=mongodb://mongodb:27017/codeSolution
+    networks:
+      - zzz
+
+  # client:
+  #   build: ./client
+  #   ports:
+  #     - "3005:3000"
+  #   stdin_open: true
+  #   tty: true
+  #   networks:
+  #     - zzz
+  #   depends_on:
+  #     - server
+
+networks:
+  zzz:
+volumes:
+  data:
+  logs:
+      
+      
